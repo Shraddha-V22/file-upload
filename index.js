@@ -8,7 +8,7 @@ app.use(express.static("content"));
 app.use(express.urlencoded({ extended: false }));
 
 const PORT = 1337;
-app.use(PORT, () => {
+app.listen(PORT, () => {
   console.log("Server is running");
   connectDB();
 });
