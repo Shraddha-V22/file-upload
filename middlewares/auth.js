@@ -21,7 +21,7 @@ const isAuthenticated = async (req, res, next) => {
 
     const decoded = jwt.verify(token, "SECRET MESSAGE");
 
-    const user = await User.findOne({ where: { id: decoded.id } });
+    const user = await User.findOne({ where: { id: decoded.user.id } });
 
     if (!user) {
       return res.status(404).json({
@@ -38,7 +38,7 @@ const isAuthenticated = async (req, res, next) => {
 
 const isSeller = async (req, res, next) => {
   try {
-    if (req.User.dataValues.isSeller) {
+    if (req.user.dataValues.isSeller) {
       next();
     } else {
       return res.status(401).json({
