@@ -12,6 +12,10 @@ app.use(express.urlencoded({ extended: false })); //Returns middleware that only
 app.use("/api/v1/user", userRoutes); //if api/v1/user is called then it will go to userRoutes
 app.use("/api/v1/products", productRoutes); //similar as above
 
+app.get("/", async (req, res) => {
+  return res.status(200).send("api works");
+});
+
 const PORT = 1337; //declared the port
 app.listen(PORT, () => {
   //listen to the server at the port

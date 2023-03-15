@@ -2,6 +2,7 @@ const express = require("express");
 const { isAuthenticated, isSeller } = require("../middlewares/auth");
 const upload = require("../utils/fileUpload"); //require in upload fn.
 const router = express.Router(); //create router
+const Product = require("../models/productModel");
 
 router.post("/create", isAuthenticated, isSeller, async (req, res) => {
   //create api for the seller to upload products //first check if the user is auhtenticated and if he is the seller using middlewares
@@ -34,12 +35,24 @@ router.post("/create", isAuthenticated, isSeller, async (req, res) => {
       content: req.file.path,
     };
 
-    return res.status(200).json({
-      //return okay status and product details
-      status: "ok",
-      productDetails,
+    const createdProduct = await Product.create(productDetails); //create product in the product database
+
+    console.log(createdProduct);
+
+    //return product created msg
+    return res.status(201).json({
+      message: "Product created",
     });
   });
+});
+
+router.get("/get/all", isAuthenticated, async (req, res) => {
+  try {
+    const products = await Product.findAll();
+    return res.status(200).json({ products: products });
+  } catch (error) {
+    return res.status(500).json({ err: error.message });
+  }
 });
 
 module.exports = router;
