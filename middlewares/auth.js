@@ -58,4 +58,18 @@ const isSeller = async (req, res, next) => {
   }
 };
 
-module.exports = { isAuthenticated, isSeller }; //export the functions
+const isBuyer = async (req, res, next) => {
+  try {
+    if (!req.user.dataValues.isSeller) {
+      next();
+    } else {
+      res.status(401).json({
+        err: "User is not a buyer",
+      });
+    }
+  } catch (error) {
+    return res.status(500).send(`Error: ${error.message}`);
+  }
+};
+
+module.exports = { isAuthenticated, isSeller, isBuyer }; //export the functions
