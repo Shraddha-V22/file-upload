@@ -7,6 +7,7 @@ const {
 } = require("../utils/validators"); // required in validator functions
 const bcrypt = require("bcrypt"); //required in bcrypt
 const jwt = require("jsonwebtoken"); //required in jwt
+const { isAuthenticated } = require("../middlewares/auth");
 
 const router = express.Router();
 
@@ -112,5 +113,14 @@ router.get("/signout", async (req, res) => {
     return res.status(500).send(error.message); //send error if any
   }
 });
+
+// router.get("/get/all", isAuthenticated, async (req, res) => {
+//   try {
+//     const user = await User.findAll();
+//     return res.status(200).json({ users: user });
+//   } catch (error) {
+//     return res.status(500).json({ err: error.message });
+//   }
+// });
 
 module.exports = router; //export router
